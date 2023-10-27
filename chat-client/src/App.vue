@@ -64,7 +64,7 @@ const emitTyping = () => {
   <div class="chat">
     <div v-if="!joined">
       <form @submit.prevent="join">
-        <label>What's your name?</label>
+        <label>What's your name? </label>
         <input v-model="name" />
         <button type="submit">Send</button>
       </form>

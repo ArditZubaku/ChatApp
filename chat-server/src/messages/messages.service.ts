@@ -8,8 +8,8 @@ export class MessagesService {
   clientToUser = {};
   messages: Message[] = [
     {
-      name: 'Test',
-      text: 'Test Message',
+      name: 'Chat',
+      text: `Welcome to the chat`,
     },
   ];
   create(createMessageDTO: CreateMessageDTO, clientID: string) {
