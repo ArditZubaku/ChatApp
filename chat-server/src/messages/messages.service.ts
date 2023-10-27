@@ -12,10 +12,13 @@ export class MessagesService {
       text: 'Test Message',
     },
   ];
-  create(createMessageDTO: CreateMessageDTO) {
-    // TODO: Improve this
-    this.messages.push(createMessageDTO);
-    return createMessageDTO;
+  create(createMessageDTO: CreateMessageDTO, clientID: string) {
+    const message: Message = {
+      name: this.clientToUser[clientID],
+      text: createMessageDTO.text,
+    };
+    this.messages.push(message);
+    return message;
   }
 
   findAll() {
