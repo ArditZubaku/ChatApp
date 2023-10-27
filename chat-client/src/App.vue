@@ -56,35 +56,45 @@ const emitTyping = () => {
   socket.emit("typing", { isTyping: true });
   timeout = setTimeout(() => {
     socket.emit("typing", { isTyping: false });
-  }, 2000);
+  }, 1000);
 };
 </script>
 
 <template>
   <div class="chat">
     <div v-if="!joined">
-      <form @submit.prevent="join">
-        <label>What's your name? </label>
-        <input v-model="name" />
-        <button type="submit">Send</button>
+      <form @submit.prevent="join" class="join-form">
+        <label for="name-input">What's your name?</label>
+        <input id="name-input" v-model="name" class="name-input" />
+        <button type="submit" class="btn-submit">Join</button>
       </form>
     </div>
     <div class="chat-container" v-else>
-      <div class="messages-container">
-        <div v-for="message in messages">
-          [{{ message.name }}]: {{ message.text }}
-        </div>
-      </div>
+      <section class="messages-container">
+        <article
+          v-for="message in messages"
+          :key="message.name"
+          class="message"
+        >
+          <span class="message-author">{{ message.name }}</span
+          >: <span class="message-text">{{ message.text }}</span>
+        </article>
+      </section>
 
-      <div v-if="typingDisplay">{{ typingDisplay }}</div>
+      <div class="typing-display" v-if="typingDisplay">{{ typingDisplay }}</div>
 
-      <hr />
+      <hr class="separator" />
 
       <div class="message-input">
-        <form @submit.prevent="sendMessage">
-          <label>Message: </label>
-          <input v-model="messageText" @input="emitTyping" />
-          <button type="submit">Send</button>
+        <form @submit.prevent="sendMessage" class="message-form">
+          <label for="message-input">Message:</label>
+          <input
+            id="message-input"
+            v-model="messageText"
+            @input="emitTyping"
+            class="message-input-field"
+          />
+          <button type="submit" class="btn-submit">Send</button>
         </form>
       </div>
     </div>
@@ -99,6 +109,28 @@ const emitTyping = () => {
   height: 100vh;
 }
 
+.join-form,
+.message-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-submit {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.name-input,
+.message-input-field {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -107,5 +139,22 @@ const emitTyping = () => {
 
 .messages-container {
   flex: 1;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.message-author {
+  font-weight: bold;
+}
+
+.typing-display {
+  font-style: italic;
+}
+
+.separator {
+  margin: 10px 0;
 }
 </style>
